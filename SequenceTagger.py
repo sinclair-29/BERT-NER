@@ -1,5 +1,6 @@
-from transformers.modeling_bert import *
+from transformers import BertModel, BertPreTrainedModel
 from torch.nn.utils.rnn import pad_sequence
+import torch.nn as nn
 
 
 class BertForSequenceTagging(BertPreTrainedModel):
@@ -44,7 +45,7 @@ class BertForSequenceTagging(BertPreTrainedModel):
 		outputs = (logits,)
 		if labels is not None:
 			loss_mask = labels.gt(-1)
-			loss_fct = CrossEntropyLoss()
+			loss_fct = nn.CrossEntropyLoss()
 			# Only keep active parts of the loss
 			if loss_mask is not None:
 				active_loss = loss_mask.view(-1) == 1
